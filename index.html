@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz Pixel Spaceship</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="frame">
+    <header class="topbar">
+      <div class="logo">🚀</div>
+      <h1 class="title">QUIZ PIXEL SPACESHIP</h1>
+      <nav class="nav">
+        <a href="#accueil">Accueil</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#scores">Scores</a>
+      </nav>
+    </header>
+    <section id="accueil" class="section section-home">
+      <div class="stars" aria-hidden="true"></div>
+      <div class="home-wrap">
+        <div class="hero">
+          <div class="ship" aria-hidden="true"></div>
+          <h2 class="pixel-heading">Prêt au décollage ?</h2>
+          <p class="subtitle">Crée ton compte et conquiers la galaxie du quiz.</p>
+          <button class="btn btn-primary" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">
+            Commencer
+          </button>
+        </div>
+
+        <form id="signup" class="card signup" autocomplete="on" novalidate>
+          <h3 class="card-title">Inscription</h3>
+
+          <div class="grid">
+            <div class="field">
+              <label for="prenom">Prénom</label>
+              <input id="prenom" name="prenom" type="text" placeholder="Ex: Lina" required />
+              <span class="hint">Obligatoire</span>
+            </div>
+
+            <div class="field">
+              <label for="nom">Nom</label>
+              <input id="nom" name="nom" type="text" placeholder="Ex: Dupont" required />
+              <span class="hint">Obligatoire</span>
+            </div>
+
+            <div class="field full">
+              <label for="email">Adresse e‑mail</label>
+              <input id="email" name="email" type="email" inputmode="email" placeholder="toi@exemple.com" required />
+              <span class="hint">Nous n’affichons jamais votre e‑mail publiquement.</span>
+            </div>
+
+            <div class="field full">
+              <label for="password">Mot de passe</label>
+              <div class="password-wrap">
+                <input id="password" name="password" type="password" minlength="8" placeholder="Au moins 8 caractères" required />
+                <button type="button" class="eye" aria-label="Afficher/masquer" onclick="togglePwd()">👁️</button>
+              </div>
+              <meter id="pwdMeter" min="0" low="2" high="3" optimum="4" max="4" value="0" class="meter"></meter>
+              <span class="hint" id="pwdHint">Force: très faible</span>
+            </div>
+          </div>
+
+          <div class="actions">
+            <label class="checkbox">
+              <input type="checkbox" required />
+              <span>J’accepte les conditions d’utilisation</span>
+            </label>
+            <button type="submit" class="btn btn-accent">S’inscrire</button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <section id="quiz" class="section section-quiz">
+      <div class="stars" aria-hidden="true"></div>
+      <div class="quiz-wrap card">
+        <div class="quiz-header">
+          <div class="mini-ship" aria-hidden="true"></div>
+          <div class="lives" aria-label="Vies">❤❤❤❤❤</div>
+        </div>
+
+        <div class="quiz-body">
+          <div class="sidebar">
+            <div class="bar bar-1">Niveau 1</div>
+            <div class="bar bar-2">Niveau 2</div>
+            <div class="bar bar-3">Niveau 3</div>
+          </div>
+
+          <div class="question-area">
+            <p class="q-count">Question 1/8</p>
+            <div class="terminal">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quelle planète est la plus proche du Soleil ?</p>
+            </div>
+            <div class="answers">
+              <button class="btn option">Mercure</button>
+              <button class="btn option">Vénus</button>
+              <button class="btn option">Terre</button>
+              <button class="btn option">Mars</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-invasion">
+      <div class="stars" aria-hidden="true"></div>
+      <div class="card center">
+        <h2 class="pixel-heading">INVASION !</h2>
+        <p>Les aliens ont pris l’avantage…</p>
+        <button class="btn btn-primary">Réessayer</button>
+      </div>
+    </section>
+
+    <section id="scores" class="section section-congrats">
+      <div class="stars" aria-hidden="true"></div>
+      <div class="card center">
+        <h2 class="pixel-heading">CONGRATS !</h2>
+        <p>Tu as sauvé la galaxie. Score: 7/8</p>
+        <button class="btn btn-accent">Voir le classement</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© 2025 Pixel Spaceship. Fait avec 💜 dans l’espace.</p>
+    </footer>
+  </div>
+
+  <script>
+    function togglePwd() {
+      const input = document.getElementById('password');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    const pwd = document.getElementById('password');
+    const meter = document.getElementById('pwdMeter');
+    const hint = document.getElementById('pwdHint');
+
+    function scorePwd(v) {
+      let score = 0;
+      if (!v) return 0;
+      if (v.length >= 8) score++;
+      if (/[A-Z]/.test(v)) score++;
+      if (/[0-9]/.test(v)) score++;
+      if (/[^A-Za-z0-9]/.test(v)) score++;
+      return Math.min(score, 4);
+    }
+
+    function label(score) {
+      return ['très faible','faible','moyenne','forte','très forte'][score];
+    }
+
+    pwd.addEventListener('input', () => {
+      const s = scorePwd(pwd.value);
+      meter.value = s;
+      hint.textContent = 'Force: ' + label(s);
+    });
+
+    document.getElementById('signup').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const form = e.currentTarget;
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      alert('Inscription réussie ! Bienvenue à bord 🚀');
+      document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
+    });
+  </script>
+</body>
+</html>
